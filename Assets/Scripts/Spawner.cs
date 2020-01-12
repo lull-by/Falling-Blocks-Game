@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    public float secondsBetweenSpawns = 0.25f; //number of blocks spawned per second
+    static Vector2 secondsBetweenSpawnsMinMax = new Vector2(0.15f,1f); //the min and max values of the secondsBetweenSpawns
     Vector2 halfScreenSize;
     public GameObject blockPrefab;
     float nextSpawnTime = 0;
-    public float largestBlock = 1.5f;
-    public float smallestBlock = 0.3f;
-    public float spawnAngle = 2; //degrees away from perfectly vertical that a fallingBlock can spawn
+    public float largestBlock = 3f;
+    public float smallestBlock = 0.7f;
+    public float spawnAngle = 10; //degrees away from perfectly vertical that a fallingBlock can spawn
 
 
     // Start is called before the first frame update
@@ -21,7 +21,11 @@ public class Spawner : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (Time.time > nextSpawnTime)
+        float secondsBetweenSpawns = Mathf.Lerp(secondsBetweenSpawnsMinMax.y, secondsBetweenSpawnsMinMax.x, Difficulty.getDifficultyPercent());
+        //print(Difficulty.getDifficultyPercent());
+        //print(secondsBetweenSpawns);
+        
+        if (Time.timeSinceLevelLoad > nextSpawnTime)
         {
             float spawnSize = Random.Range(smallestBlock, largestBlock);
             Vector2 spawnPosition = new Vector2(Random.Range(-halfScreenSize.x, halfScreenSize.x), halfScreenSize.y + spawnSize);

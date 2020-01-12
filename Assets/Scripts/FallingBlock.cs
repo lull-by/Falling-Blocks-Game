@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class FallingBlock : MonoBehaviour
 {
-    public float speed = 1f;
+    public Vector2 speedMinMax = new Vector2(7,14);
+    float speed;
     Vector2 halfScreenSize;
     
     // Start is called before the first frame update
     void Start()
     {
         halfScreenSize = new Vector2(Camera.main.orthographicSize * Camera.main.aspect, Camera.main.orthographicSize);
+        speed = speedMinMax.x + (speedMinMax.y - speedMinMax.x) * Difficulty.getDifficultyPercent();
     }
 
     // Update is called once per frame
@@ -21,6 +23,7 @@ public class FallingBlock : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
+        
+        
     }
 }
